@@ -1,16 +1,18 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[41]:
+# In[ ]:
 
 
 import requests
 import os
+from dotenv import load_dotenv
 
-try:
-    bearer = os.environ['RIDEMOVI_BEARER']
-except:
-    raise Exception('could not find RIDEMOVI_BEARER environment variable')
+load_dotenv("env")
+
+bearer = os.getenv('RIDEMOVI_BEARER')
+if bearer is None:
+    raise Exception('RIDEMOVI_BEARER env variable not found')
 
 url = 'https://api.ridemoviapp.com/mds-provider/gbfs/florence/free_bike_status.json'
 
@@ -23,7 +25,7 @@ print('Data fetched. Example:')
 print(response['data']['bikes'][0])
 
 
-# In[35]:
+# In[ ]:
 
 
 from time import localtime
@@ -73,7 +75,7 @@ df = spark.createDataFrame(data, schema)
 del data, response
 
 
-# In[36]:
+# In[ ]:
 
 
 table_name = "ridemovi_bikes"
